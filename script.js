@@ -14,23 +14,41 @@ document.addEventListener('DOMContentLoaded', () => {
         taskList.innerHTML = '';
         tasks.forEach((task, index) => {
             const li = document.createElement('li');
-            li.textContent = task;
-            const button = document.createElement('button');
-            button.textContent = 'Delete';
-            button.classList.add('delete-button');
-            button.addEventListener('click', () => {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.checked = task.done;
+            checkbox.addEventListener('change', () => {
+                tasks[index].done = checkbox.checked;
+                saveTasks();
+                renderTasks();
+            });
+
+            const taskText = document.createElement('span');
+            taskText.textContent = task.text;
+            taskText.classList.add('task-text');
+            if (task.done) {
+                taskText.classList.add('completed');
+            }
+
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete-button');
+            deleteButton.addEventListener('click', () => {
                 tasks.splice(index, 1);
                 saveTasks();
                 renderTasks();
             });
-            li.appendChild(button);
+
+            li.appendChild(checkbox);
+            li.appendChild(taskText);
+            li.appendChild(deleteButton);
             taskList.appendChild(li);
         });
     };
 
     const addTask = () => {
         if (newTaskInput.value.trim() !== '') {
-            tasks.push(newTaskInput.value.trim());
+            tasks.push({ text: newTaskInput.value.trim(), done: false });
             newTaskInput.value = '';
             saveTasks();
             renderTasks();
