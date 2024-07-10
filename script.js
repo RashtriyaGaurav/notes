@@ -3,11 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskList = document.getElementById('task-list');
     const addTaskButton = document.getElementById('add-task-button');
 
+    // Change the local storage key
+    const storageKey = 'todoAppTasks';
+
     // Load tasks from local storage
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    let tasks = JSON.parse(localStorage.getItem(storageKey)) || [];
 
     const saveTasks = () => {
-        localStorage.setItem('tasks', JSON.stringify(tasks));
+        localStorage.setItem(storageKey, JSON.stringify(tasks));
     };
 
     const renderTasks = () => {
