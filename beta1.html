@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timetable</title>
+    <link rel="stylesheet" href="beta1.css">
+</head>
+<body>
+    <button id="editButton">Edit</button>
+    <button id="addTimetableButton">Add Time</button>
+    <button id="deleteTimetableButton" class="hidden">Delete Time</button>
+
+    <div class="container">
+        <h1>Timetable</h1>
+        <select id="timetableSelector">
+            <option value="" disabled selected>Select Timetable</option>
+        </select>
+               <form id="timetableForm" class="hidden">
+            <input type="text" id="timetableNameInput" placeholder="Enter timetable name" required>
+            <button type="submit">Save</button>
+        </form>
+        <form id="taskForm" class="hidden">
+            <input type="text" id="taskInput" placeholder="Enter your task" required>
+            <input type="time" id="startTimeInput" required>
+            <input type="time" id="endTimeInput" required>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="beta1.js"></script>
+</body>
+</html>
