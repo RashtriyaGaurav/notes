@@ -72,7 +72,7 @@
     <div class="container">
         <h2>PW Lectures</h2>
         <div class="input-group">
-            <label for="lectureCount">Live Lectures</label>
+            <label for="lectureCount">Total Lectures :</label>
             <input type="number" id="lectureCount" aria-label="Enter number of live lectures" value="0">
         </div>
         <div class="button-group">
@@ -82,7 +82,7 @@
         
         <h2>Lectures Completed</h2>
         <div class="input-group">
-            <label for="completedLectureCount">Completed Lectures</label>
+            <label for="completedLectureCount"> Lectures Left :</label>
             <input type="number" id="completedLectureCount" aria-label="Enter number of completed lectures" value="0">
         </div>
         <div class="button-group">
@@ -121,7 +121,7 @@
 
             if (!isSunday()) {
                 liveLectures.textContent = parseInt(liveLectures.textContent) + 2;
-                completedLectures.textContent = parseInt(completedLectures.textContent) + 3;
+                completedLectures.textContent = parseInt(completedLectures.textContent) - 3;
             }
             localStorage.setItem('liveLectures', liveLectures.textContent);
             localStorage.setItem('completedLectures', completedLectures.textContent);
