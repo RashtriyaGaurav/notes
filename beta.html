@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecture Tracker</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 350px;
+        }
+        .container h2 {
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            color: #333333;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #ffffff;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        .button-group button:hover {
+            background-color: #0056b3;
+        }
+        .counter {
+            font-size: 1.5em;
+            margin-top: 10px;
+            color: #495057;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>PW Lectures</h2>
+        <div class="input-group">
+            <label for="lectureCount">Live Lectures</label>
+            <input type="number" id="lectureCount" aria-label="Enter number of live lectures" value="0">
+        </div>
+        <div class="button-group">
+            <button type="button" onclick="updateLiveLectures()">Update</button>
+        </div>
+        <div class="counter" id="liveLectures">0</div>
+        
+        <h2>Lectures Completed</h2>
+        <div class="input-group">
+            <label for="completedLectureCount">Completed Lectures</label>
+            <input type="number" id="completedLectureCount" aria-label="Enter number of completed lectures" value="0">
+        </div>
+        <div class="button-group">
+            <button type="button" onclick="updateCompletedLectures()">Update</button>
+        </div>
+        <div class="counter" id="completedLectures">0</div>
+    </div>
+
+    <script>
+        // Check if today is Sunday
+        function isSunday() {
+            const today = new Date();
+            return today.getDay() === 0;
+        }
+
+        // Update the number of live lectures
+        function updateLiveLectures() {
+            const lectureInput = document.getElementById('lectureCount');
+            const liveLectures = document.getElementById('liveLectures');
+            liveLectures.textContent = lectureInput.value;
+            localStorage.setItem('liveLectures', lectureInput.value);
+        }
+
+        // Update the number of completed lectures
+        function updateCompletedLectures() {
+            const completedLectureInput = document.getElementById('completedLectureCount');
+            const completedLectures = document.getElementById('completedLectures');
+            completedLectures.textContent = completedLectureInput.value;
+            localStorage.setItem('completedLectures', completedLectureInput.value);
+        }
+
+        // Update daily counts
+        function updateDailyCounts() {
+            const liveLectures = document.getElementById('liveLectures');
+            const completedLectures = document.getElementById('completedLectures');
+
+            if (!isSunday()) {
+                liveLectures.textContent = parseInt(liveLectures.textContent) + 2;
+                completedLectures.textContent = parseInt(completedLectures.textContent) + 3;
+            }
+            localStorage.setItem('liveLectures', liveLectures.textContent);
+            localStorage.setItem('completedLectures', completedLectures.textContent);
+        }
+
+        // Initialize counts from local storage or set defaults
+        document.getElementById('liveLectures').textContent = localStorage.getItem('liveLectures') || "0";
+        document.getElementById('completedLectures').textContent = localStorage.getItem('completedLectures') || "0";
+
+        // Check and update daily counts if not already done today
+        const lastUpdate = localStorage.getItem('lastUpdate');
+        const today = new Date().toISOString().split('T')[0];
+        if (lastUpdate !== today) {
+            updateDailyCounts();
+            localStorage.setItem('lastUpdate', today);
+        }
+
+        // Set interval to update counts daily
+        setInterval(() => {
+            const currentDate = new Date().toISOString().split('T')[0];
+            if (localStorage.getItem('lastUpdate') !== currentDate) {
+                updateDailyCounts();
+                localStorage.setItem('lastUpdate', currentDate);
+            }
+        }, 24 * 60 * 60 * 1000); // every 24 hours
+    </script>
+</body>
+</html>
